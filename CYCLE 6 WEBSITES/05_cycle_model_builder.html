@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Cycle Model Builder</title><style>
+:root{
+  --navy:#12355b;--blue:#1d6fd6;--lightBlue:#eef6ff;--yellow:#ffd84d;
+  --lightYellow:#fff7d2;--bg:#f7faff;--card:#fff;--ink:#17212f;--muted:#667085;
+  --line:#d9e3f0;--green:#087443;--red:#b42318;--purple:#6b46c1;
+  --shadow:0 16px 35px rgba(18,53,91,.10)
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);
+  background:radial-gradient(circle at top left,rgba(255,216,77,.35),transparent 35%),
+             radial-gradient(circle at top right,rgba(29,111,214,.16),transparent 38%),var(--bg)
+}
+header{padding:16px}
+.hero{
+  max-width:1120px;margin:auto;padding:30px;border-radius:30px;
+  background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;
+  border-bottom:8px solid var(--yellow);box-shadow:var(--shadow)
+}
+.kicker{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:999px;font-weight:900;font-size:13px;letter-spacing:.04em}
+h1{font-size:clamp(30px,4vw,48px);margin:10px 0 6px;letter-spacing:-.04em}
+.hero p{font-size:18px;max-width:850px;margin:0;opacity:.96;line-height:1.5}
+main{width:min(1120px,calc(100% - 24px));margin:0 auto 26px}
+.card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:24px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}
+h2{font-size:clamp(24px,3vw,34px);margin:4px 0 8px;color:var(--navy);letter-spacing:-.02em}
+h3{margin:0 0 8px;color:var(--navy)}
+p{line-height:1.55}.muted{color:var(--muted)}.small{font-size:14px;color:var(--muted)}
+.start-card{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center}
+@media(max-width:760px){.start-card{grid-template-columns:1fr}}
+button{border:0;border-radius:16px;padding:13px 16px;font-weight:900;cursor:pointer;font-size:15px;margin:4px 6px 4px 0;transition:.15s}
+button:hover{transform:translateY(-1px)}button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.primary{background:var(--blue);color:#fff}.secondary{background:var(--yellow);color:var(--navy)}.ghost{background:var(--lightBlue);color:var(--blue);border:1px solid #c7ddf6}.danger{background:var(--red);color:#fff}.purple{background:var(--purple);color:#fff}
+.teacher-link{background:transparent;color:var(--muted);padding:6px 8px;font-size:13px;text-decoration:underline}
+input,textarea,select{width:100%;padding:13px 14px;border-radius:16px;border:1px solid var(--line);font:inherit;background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(29,111,214,.12)}
+textarea{min-height:120px;resize:vertical}label{display:block;font-weight:900;margin:10px 0 7px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.hidden{display:none!important}
+.prompt{background:var(--lightBlue);border:1px solid #c7ddf6;border-radius:20px;padding:16px}
+.ok,.warn,.bad{padding:14px;border-radius:18px;margin-top:12px;font-weight:800}
+.ok{background:#ecfdf3;border:1px solid #abefc6;color:var(--green)}.warn{background:var(--lightYellow);border:1px solid #ffe58f;color:#7a5600}.bad{background:#fff1f0;border:1px solid #ffccc7;color:var(--red)}
+.table-wrap{overflow:auto;border-radius:18px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left;vertical-align:top}th{background:var(--lightBlue);color:var(--navy)}
+footer{text-align:center;padding:22px;color:var(--muted)}
+.student-step{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.step-pill{background:var(--yellow);color:var(--navy);padding:6px 10px;border-radius:999px;font-weight:900;font-size:13px}
+.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.choice-card{border:2px solid var(--line);background:#fff;border-radius:20px;padding:16px;cursor:pointer;transition:.15s;min-height:110px}
+.choice-card:hover,.choice-card.selected{border-color:var(--blue);background:var(--lightBlue);transform:translateY(-2px)}
+.choice-card strong{display:block;color:var(--navy);font-size:18px;margin:6px 0}.emoji{font-size:34px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}@media(max-width:820px){.two-col{grid-template-columns:1fr}}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--lightBlue);color:var(--blue);font-weight:900;font-size:13px;margin:4px 4px 4px 0}
+.token-row{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:var(--lightBlue);border-radius:18px;border:1px solid #c7ddf6}
+.draggable{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;border-radius:999px;background:#fff;border:2px solid var(--blue);color:var(--navy);font-weight:900;margin:5px;cursor:grab;user-select:none;box-shadow:0 8px 16px rgba(18,53,91,.09)}
+.drop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.drop-zone{min-height:145px;border:3px dashed #aac8ec;border-radius:22px;background:#f8fbff;padding:12px;transition:.15s}.drop-zone.over{background:#fff7d2;border-color:var(--yellow)}.drop-zone h3{font-size:18px;text-align:center;margin-bottom:10px}
+.canvas{min-height:440px;position:relative;border:2px dashed #8badcf;border-radius:22px;background:linear-gradient(90deg,rgba(11,79,156,.05) 1px,transparent 1px),linear-gradient(rgba(11,79,156,.05) 1px,transparent 1px),#fffef5;background-size:28px 28px;overflow:hidden}
+.canvas-item{position:absolute;user-select:none;cursor:move;background:white;border:2px solid var(--blue);border-radius:999px;padding:9px 12px;font-weight:900;min-width:80px;text-align:center;box-shadow:var(--shadow)}
+.canvas-arrow{position:absolute;color:var(--blue);font-size:34px;font-weight:900;cursor:move;user-select:none;line-height:1}
+.canvas-item.selected,.canvas-arrow.selected{outline:4px solid var(--yellow);outline-offset:2px}
+.path-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.path-step{padding:16px;border-radius:20px;background:#fff;border:2px solid var(--line);text-align:center;font-weight:900}.path-step.active{background:var(--lightYellow);border-color:var(--yellow)}
+.instruction-box{border:1px solid var(--line);border-radius:20px;padding:16px;background:#fff}
+.meter{height:20px;background:#e5edf7;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.meter-fill{height:100%;background:linear-gradient(90deg,var(--yellow),#39b87f);width:0%;transition:.4s}
+.mission-box{background:linear-gradient(135deg,#fff,#fff7cf);border:1px solid #f3df8b;border-radius:26px;padding:22px;min-height:250px}
+.game-stat{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:900;color:var(--navy)}
+.community-visual{font-size:54px;text-align:center;line-height:1.7}
+.pulse{display:inline-block;animation:pulse 1s infinite alternate}@keyframes pulse{from{transform:scale(.95)}to{transform:scale(1.08)}}
+.workspace{display:none}.workspace.active{display:block}
+.flow-slots{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.flow-slot{padding:14px 16px;border:2px solid var(--blue);border-radius:18px;background:#fff;font-weight:900}
+.boss-card{border:3px solid var(--yellow);background:linear-gradient(135deg,#fff,#fff8d7);border-radius:24px;padding:18px}
+</style></head><body>
+<header><div class="hero"><span class="kicker">ELABORATE · MODEL BUILDING</span><h1>Cycle Model Builder</h1><p>Build, edit, test, and defend a model that shows how plants, animals, and materials are connected.</p></div></header>
+<main>
+<section id="home" class="card start-card"><div><h2>Ready?</h2><p class="muted">Complete the model-building task and submit your response at the end.</p><div class="student-step"><span class="step-pill">1. Build</span><span class="step-pill">2. Test</span><span class="step-pill">3. Defend</span></div></div><div><button class="primary" style="width:100%;font-size:18px;padding:16px" onclick="showPanel('student')">Start Activity</button></div></section>
+<section id="studentPanel" class="hidden"><div class="card"><h2>Before You Start</h2><div class="form-grid"><div><label>Name</label><input id="studentName" placeholder="Type your full name"/></div><div><label>Section</label><input id="studentSection" placeholder="Example: 8-Gratitude"/></div></div></div>
+<div class="card">
+  <h2>Cycle Model Mission</h2>
+  <p>Build a model, edit it, test it, and defend it.</p>
+  <div class="prompt"><strong>Controls:</strong> Click any label or arrow to select it. Rotate arrows or delete accidental items.</div>
+  <div class="game-stat"><span class="stat">Test Score: <span id="testScoreText">0</span>/3</span></div>
+</div>
+<div class="card">
+  <h2>Build Your Model</h2>
+  <button class="ghost" onclick="addItem('🌿 Plant')">Plant</button>
+  <button class="ghost" onclick="addItem('🐇 Animal')">Animal</button>
+  <button class="ghost" onclick="addItem('☀️ Sunlight')">Sunlight</button>
+  <button class="ghost" onclick="addItem('💧 Water')">Water</button>
+  <button class="ghost" onclick="addItem('CO₂')">CO₂</button>
+  <button class="ghost" onclick="addItem('O₂')">O₂</button>
+  <button class="ghost" onclick="addItem('Glucose')">Glucose</button>
+  <button class="ghost" onclick="addItem('Photosynthesis')">Photosynthesis</button>
+  <button class="ghost" onclick="addItem('Respiration')">Respiration</button>
+  <button class="secondary" onclick="addArrow()">Arrow</button>
+  <button class="secondary" onclick="rotateSelected()">Rotate Arrow</button>
+  <button class="danger" onclick="deleteSelected()">Delete Selected</button>
+  <button class="danger" onclick="clearModel()">Clear All</button>
+  <div class="canvas" id="canvas" style="margin-top:12px"></div>
+</div>
+<div class="card">
+  <h2>Model Test</h2>
+  <button class="secondary" onclick="runModelTest()">Run Model Test</button>
+  <div id="modelFeedback"></div>
+</div>
+<div class="card">
+  <h2>Defend Your Model</h2>
+  <label>Explain what your arrows mean and how your model shows balance in nature.</label>
+  <textarea id="studentAnswer" placeholder="Write 2–4 sentences."></textarea>
+  <label>Challenge: What would happen to your model if plants were removed?</label>
+  <textarea id="challengeAnswer" placeholder="Explain the effect of removing plants."></textarea>
+  <button class="primary" onclick="submitAnswer()">Submit Model Explanation</button>
+  <button class="ghost" onclick="showPanel('home')">Back</button>
+</div>
+<div id="submitStatus"></div></section>
+<section id="teacherPanel" class="hidden"><div class="card"><h2>Teacher Access</h2><label>Access Code</label><input id="teacherCode" type="password" placeholder="Enter access code"/><button class="primary" onclick="teacherLogin()">Continue</button><button class="ghost" onclick="showPanel('home')">Back</button><div id="teacherMessage"></div></div></section>
+<section id="answersPanel" class="hidden"><div class="card"><h2>Saved Answers</h2><button class="primary" onclick="renderAnswers()">Refresh</button><button class="secondary" onclick="exportCSV()">Export CSV</button><button class="danger" onclick="clearAnswers()">Clear All</button><button class="ghost" onclick="showPanel('home')">Back</button><div id="answersTable" style="margin-top:14px"></div></div></section>
+</main><footer>Grade 8 Science · <button class="teacher-link" onclick="showPanel('teacher')">Teacher Access</button></footer>
+<script>const STORAGE_KEY="v4_w5";const CSV_NAME="w5_cycle_model_builder.csv";const TABLE_HEADERS=["Time","Name","Section","Test Score","Explanation","Challenge Answer","Details"];const TABLE_FIELDS=["timestamp","name","section","testScore","answer","challenge","details"];
+const TEACHER_CODE = "MDSF2026";
+function qs(id){ return document.getElementById(id); }
+function showPanel(panel){
+  ["home","studentPanel","teacherPanel","answersPanel"].forEach(id => qs(id).classList.add("hidden"));
+  const map = {home:"home", student:"studentPanel", teacher:"teacherPanel", answers:"answersPanel"};
+  qs(map[panel]).classList.remove("hidden");
+  if(panel === "answers") renderAnswers();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function getAnswers(){ return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+function saveAnswers(rows){ localStorage.setItem(STORAGE_KEY, JSON.stringify(rows)); }
+function requireStudent(){
+  const name = qs("studentName").value.trim();
+  const section = qs("studentSection").value.trim();
+  if(!name || !section){ alert("Please type your name and section."); return null; }
+  return {name, section};
+}
+function escapeHtml(text){
+  return String(text).replace(/[&<>"']/g, m => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" })[m]);
+}
+function teacherLogin(){
+  if(qs("teacherCode").value.trim() !== TEACHER_CODE){
+    qs("teacherMessage").innerHTML = '<div class="bad">Incorrect access code.</div>';
+    return;
+  }
+  showPanel("answers");
+}
+function renderAnswers(){
+  const rows = getAnswers();
+  if(rows.length === 0){ qs("answersTable").innerHTML = '<div class="warn">No answers yet.</div>'; return; }
+  let html = '<div class="table-wrap"><table><thead><tr>';
+  TABLE_HEADERS.forEach(h => html += '<th>'+escapeHtml(h)+'</th>');
+  html += '</tr></thead><tbody>';
+  rows.slice().reverse().forEach(r => {
+    html += '<tr>';
+    TABLE_FIELDS.forEach(f => html += '<td>'+escapeHtml(r[f] || "")+'</td>');
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  qs("answersTable").innerHTML = html;
+}
+function exportCSV(){
+  const rows = getAnswers();
+  if(rows.length === 0){ alert("No answers to export."); return; }
+  const csvRows = [TABLE_HEADERS.join(",")];
+  rows.forEach(r => csvRows.push(TABLE_FIELDS.map(f => '"' + String(r[f] || "").replaceAll('"','""') + '"').join(",")));
+  const blob = new Blob([csvRows.join("\n")], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = CSV_NAME; a.click(); URL.revokeObjectURL(url);
+}
+function clearAnswers(){
+  if(confirm("Clear all saved answers on this device?")){
+    localStorage.removeItem(STORAGE_KEY); renderAnswers();
+  }
+}
+function saveRow(row){
+  const rows = getAnswers();
+  rows.push(row);
+  saveAnswers(rows);
+  const status = qs("submitStatus");
+  if(status) status.innerHTML = '<div class="ok">Submitted. Thank you.</div>';
+}
+function setupDragDrop(){
+  document.querySelectorAll(".draggable").forEach(el => {
+    el.addEventListener("dragstart", e => e.dataTransfer.setData("text/plain", el.id));
+  });
+  document.querySelectorAll(".drop-zone").forEach(zone => {
+    zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("over"); });
+    zone.addEventListener("dragleave", () => zone.classList.remove("over"));
+    zone.addEventListener("drop", e => {
+      e.preventDefault(); zone.classList.remove("over");
+      const id = e.dataTransfer.getData("text/plain");
+      const item = document.getElementById(id);
+      if(item) zone.appendChild(item);
+    });
+  });
+}
+let selectedCanvasElement=null;
+function selectCanvasElement(el){
+  document.querySelectorAll(".canvas-item,.canvas-arrow").forEach(x=>x.classList.remove("selected"));
+  selectedCanvasElement=el;
+  if(el) el.classList.add("selected");
+}
+function makeMovable(el, container){
+  let ox=0, oy=0, down=false;
+  el.addEventListener("mousedown", e => {
+    selectCanvasElement(el);
+    down=true; ox=e.offsetX; oy=e.offsetY; document.addEventListener("mousemove", move); document.addEventListener("mouseup", up);
+  });
+  el.addEventListener("touchstart", e => {
+    selectCanvasElement(el);
+    const t=e.touches[0]; const r=el.getBoundingClientRect(); down=true; ox=t.clientX-r.left; oy=t.clientY-r.top;
+    document.addEventListener("touchmove", moveTouch, {passive:false}); document.addEventListener("touchend", upTouch);
+  }, {passive:false});
+  function move(e){
+    if(!down) return;
+    const r=container.getBoundingClientRect();
+    el.style.left=Math.max(0,Math.min(container.clientWidth-el.offsetWidth,e.clientX-r.left-ox))+"px";
+    el.style.top=Math.max(0,Math.min(container.clientHeight-el.offsetHeight,e.clientY-r.top-oy))+"px";
+  }
+  function moveTouch(e){
+    if(!down) return; e.preventDefault();
+    const t=e.touches[0]; const r=container.getBoundingClientRect();
+    el.style.left=Math.max(0,Math.min(container.clientWidth-el.offsetWidth,t.clientX-r.left-ox))+"px";
+    el.style.top=Math.max(0,Math.min(container.clientHeight-el.offsetHeight,t.clientY-r.top-oy))+"px";
+  }
+  function up(){down=false;document.removeEventListener("mousemove",move);document.removeEventListener("mouseup",up);}
+  function upTouch(){down=false;document.removeEventListener("touchmove",moveTouch);document.removeEventListener("touchend",upTouch);}
+}
+
+let count=0,testScore=0;
+function addItem(text){const c=qs("canvas");const el=document.createElement("div");el.className="canvas-item";el.textContent=text;el.dataset.type="item";el.style.left=(20+(count*35)%780)+"px";el.style.top=(20+(count*45)%340)+"px";count++;makeMovable(el,c);c.appendChild(el);}
+function addArrow(){const c=qs("canvas");const el=document.createElement("div");el.className="canvas-arrow";el.textContent="➡";el.dataset.type="arrow";el.dataset.rotation="0";el.style.left=(30+(count*30)%780)+"px";el.style.top=(30+(count*40)%340)+"px";count++;makeMovable(el,c);c.appendChild(el);}
+function rotateSelected(){if(!selectedCanvasElement){alert("Select an arrow first.");return;}if(selectedCanvasElement.dataset.type!=="arrow"){alert("Only arrows can be rotated.");return;}const next=(parseInt(selectedCanvasElement.dataset.rotation||"0")+45)%360;selectedCanvasElement.dataset.rotation=String(next);selectedCanvasElement.style.transform="rotate("+next+"deg)";}
+function deleteSelected(){if(!selectedCanvasElement){alert("Select something first.");return;}selectedCanvasElement.remove();selectedCanvasElement=null;}
+function clearModel(){qs("canvas").innerHTML="";count=0;selectedCanvasElement=null;}
+function hasLabel(text){return [...qs("canvas").querySelectorAll(".canvas-item")].some(x=>x.textContent.includes(text));}
+function runModelTest(){
+ testScore=0; let feedback=[];
+ if(hasLabel("Plant")&&hasLabel("Animal")){testScore++;feedback.push("Living things included.");}else feedback.push("Add both plant and animal.");
+ if(hasLabel("CO₂")&&hasLabel("O₂")&&hasLabel("Water")){testScore++;feedback.push("Important materials included.");}else feedback.push("Add CO₂, O₂, and water.");
+ if(hasLabel("Photosynthesis")&&hasLabel("Respiration")&&qs("canvas").querySelectorAll(".canvas-arrow").length>=2){testScore++;feedback.push("Processes and arrows included.");}else feedback.push("Add photosynthesis, respiration, and at least two arrows.");
+ qs("testScoreText").textContent=testScore;
+ qs("modelFeedback").innerHTML=(testScore===3?'<div class="ok">Model test passed. ':'<div class="warn">Model test needs improvement. ')+feedback.join(" ")+'</div>';
+}
+function submitAnswer(){const info=requireStudent();if(!info)return;const answer=qs("studentAnswer").value.trim();const challenge=qs("challengeAnswer").value.trim();if(!answer||!challenge){alert("Please answer both explanation questions.");return;}const labels=[...qs("canvas").querySelectorAll(".canvas-item")].map(x=>x.textContent).join(", ");const arrows=[...qs("canvas").querySelectorAll(".canvas-arrow")].length;saveRow({timestamp:new Date().toLocaleString(),name:info.name,section:info.section,testScore:testScore+"/3",answer,challenge,details:"Labels: "+labels+"; arrows: "+arrows});}
+</script></body></html>
